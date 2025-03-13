@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import auth
 
+
 # Create your models here.
 class Publisher(models.Model):
     name = models.CharField(max_length=50,
@@ -11,6 +12,7 @@ class Publisher(models.Model):
     email = models.EmailField(
         help_text="The Publisher's email address"
     )
+
     def __str__(self):
         return self.name
 
@@ -27,16 +29,28 @@ class Book(models.Model):
     contributors = models.ManyToManyField(
         'Contributor', through='BookContributor',
     )
+    cover = models.ImageField(upload_to='book_covers/', null=True, blank=True)
+    sample = models.FileField(upload_to='book_samples/', null=True, blank=True)
+
     def __str__(self):
-        return self.title
+        return "{} ({})".format(self.title, self.isbn)
 
 
 class Contributor(models.Model):
     first_names = models.CharField(max_length=50, help_text="The first name of the Contributor")
     last_names = models.CharField(max_length=50, help_text="The last name of the Contributor")
     email = models.EmailField(help_text="The Contributor's email address")
+
+    def initialled_name(self):
+        first_names = self.first_names.split(' ')
+        output = str()
+        for name in first_names:
+            output += name[0].upper()
+        return f'{self.last_names}, {output}'
+
     def __str__(self):
-        return self.first_names
+        return self.initialled_name()
+
 
 class BookContributor(models.Model):
     class ContributionRole(models.TextChoices):
@@ -56,6 +70,7 @@ class BookContributor(models.Model):
         max_length=20,
     )
 
+
 class Reviews(models.Model):
     content = models.TextField(
         help_text="The review text")
@@ -65,7 +80,7 @@ class Reviews(models.Model):
         auto_now_add=True,
         help_text="The date the review was created")
     date_edited = models.DateTimeField(
-        null=True,help_text="The date the review was edited")
+        null=True, help_text="The date the review was edited")
     creator = models.ForeignKey(
         auth.get_user_model(), on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, help_text="The book the review was made")
