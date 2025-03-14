@@ -18,10 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from . import settings
+from django.contrib.auth import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('reviews.urls'))
+    path('', include('reviews.urls')),
+    path("accounts/", include(("django.contrib.auth.urls", "auth"), namespace="accounts")),
+    path("accounts/password_reset/done/", views.PasswordResetDoneView.as_view(), name="password_reset_done", ),
+    path("accounts/reset/done/", views.PasswordResetCompleteView.as_view(), name="password_reset_complete", ),
 ]
 
 if settings.DEBUG:
