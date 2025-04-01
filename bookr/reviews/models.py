@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib import auth
 
 
-# Create your models here.
 class Publisher(models.Model):
     name = models.CharField(max_length=50,
                             help_text="The name of the Publisher")

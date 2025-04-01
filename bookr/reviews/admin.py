@@ -10,9 +10,9 @@ class ContributorAdmin(admin.ModelAdmin):
 
 class BookAdmin(admin.ModelAdmin):
     date_hierarchy = 'publication_date'
-    list_display = ('title', 'isbn13', 'has_isbn')
+    list_display = ('title', 'isbn13', 'has_isbn', 'get_publisher')
     list_filter = ('publisher', 'publication_date')
-    search_fields = ('title', 'isbn')
+    search_fields = ['title', 'isbn', 'publisher__name']
 
     @admin.display(
         ordering='isbn',
@@ -23,6 +23,9 @@ class BookAdmin(admin.ModelAdmin):
         return "{}-{}-{}-{}-{}".format(obj.isbn[0:3],
                                        obj.isbn[3:4], obj.isbn[4:6],
                                        obj.isbn[6:12], obj.isbn[12:13])
+
+    def get_publisher(self, obj):
+        return obj.publisher.name
 
     @admin.display(
         boolean=True,

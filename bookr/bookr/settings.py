@@ -35,14 +35,14 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # Application definition
 
 INSTALLED_APPS = [
-    'reviews.adminconfig.ReviewsAdminConfig',
-    # 'django.contrib.admin',
+    'bookr_admin.apps.BookrAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'reviews',
+
 ]
 
 MIDDLEWARE = [
