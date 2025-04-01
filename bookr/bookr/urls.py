@@ -11,6 +11,7 @@ urlpatterns = [
     path("accounts/", include(("django.contrib.auth.urls", "auth"), namespace="accounts")),
     path("accounts/password_reset/done/", views.PasswordResetDoneView.as_view(), name="password_reset_done", ),
     path("accounts/reset/done/", views.PasswordResetCompleteView.as_view(), name="password_reset_complete", ),
+    path('filter_demo/', include('filter_demo.urls')),
 ]
 
 if settings.DEBUG:
