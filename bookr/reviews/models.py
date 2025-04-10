@@ -47,6 +47,9 @@ class Contributor(models.Model):
             output += name[0].upper()
         return f'{self.last_names}, {output}'
 
+    def number_contributions(self):
+        return self.bookcontributor_set.count()
+
     def __str__(self):
         return self.initialled_name()
 
